@@ -62,7 +62,7 @@ steps:
       unzip -o vivek-todo.zip
       rm -f vivek-todo.zip
       sudo systemctl restart nginx
-      ls -lah
-    readyTimeout: '20000'    
-
+      echo "===== DEPLOYED FILES ====="
+      ls -lah /var/www/html
+    readyTimeout: '20000'
 
