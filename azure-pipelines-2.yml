@@ -52,29 +52,57 @@ steps:
     readyTimeout: '20000'
 
 
+# - task: SSH@0
+#   displayName: 'Deploy Todo App'
+#   inputs:
+#     sshEndpoint: 'vivek-service-conn-ssh-pair'
+#     runOptions: 'commands'
+#     commands: |
+#       echo "Current directory:"
+#       pwd
+
+#       echo "Deployment directory:"
+#       ls -lah /var/www/html
+
+#       echo "Extracting application:"
+#       cd /var/www/html
+#       unzip -o /var/www/html/vivek-todo.zip
+
+#       echo "Removing ZIP:"
+#       rm -f /var/www/html/vivek-todo.zip
+
+#       echo "Restarting nginx:"
+#       sudo systemctl restart nginx
+
+#       echo "Final files:"
+#       ls -lah /var/www/html
+#     readyTimeout: '20000'
+
 - task: SSH@0
-  displayName: 'Deploy Todo App'
+  displayName: 'Deploy Todo App - Debug'
   inputs:
     sshEndpoint: 'vivek-service-conn-ssh-pair'
     runOptions: 'commands'
     commands: |
-      echo "Current directory:"
-      pwd
+      echo "===== USER ====="
+      whoami
 
-      echo "Deployment directory:"
+      echo "===== BEFORE ====="
       ls -lah /var/www/html
 
-      echo "Extracting application:"
+      echo "===== ZIP INFO ====="
+      ls -lh /var/www/html/vivek-todo.zip
+
+      echo "===== ZIP CONTENT ====="
+      unzip -l /var/www/html/vivek-todo.zip
+
+      echo "===== EXTRACTING ====="
       cd /var/www/html
       unzip -o /var/www/html/vivek-todo.zip
 
-      echo "Removing ZIP:"
-      rm -f /var/www/html/vivek-todo.zip
-
-      echo "Restarting nginx:"
-      sudo systemctl restart nginx
-
-      echo "Final files:"
+      echo "===== AFTER ====="
       ls -lah /var/www/html
-    readyTimeout: '20000'
 
+      echo "===== FIND FILES ====="
+      find /var/www/html -maxdepth 3 -type f -print
+    readyTimeout: '20000'
