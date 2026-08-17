@@ -13,9 +13,18 @@ steps:
     versionSpec: '16.x'
   displayName: 'Install Node.js'
 
+# - script: |
+#     cd ReactTodoUIMonolith
+#     npm install
+#     npm run build
+#   displayName: 'npm install and build'
+
+
 - script: |
     cd ReactTodoUIMonolith
     npm install
     npm run build
-  displayName: 'npm install and build'
 
+    echo ===== BUILD FOLDER =====
+    dir build
+  displayName: 'npm install and build'
