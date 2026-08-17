@@ -78,31 +78,57 @@ steps:
 #       ls -lah /var/www/html
 #     readyTimeout: '20000'
 
+# - task: SSH@0
+#   displayName: 'Deploy Todo App - Debug'
+#   inputs:
+#     sshEndpoint: 'vivek-service-conn-ssh-pair'
+#     runOptions: 'commands'
+#     commands: |
+#       echo "===== USER ====="
+#       whoami
+
+#       echo "===== BEFORE ====="
+#       ls -lah /var/www/html
+
+#       echo "===== ZIP INFO ====="
+#       ls -lh /var/www/html/vivek-todo.zip
+
+#       echo "===== ZIP CONTENT ====="
+#       unzip -l /var/www/html/vivek-todo.zip
+
+#       echo "===== EXTRACTING ====="
+#       cd /var/www/html
+#       unzip -o /var/www/html/vivek-todo.zip
+
+#       echo "===== AFTER ====="
+#       ls -lah /var/www/html
+
+#       echo "===== FIND FILES ====="
+#       find /var/www/html -maxdepth 3 -type f -print
+#     readyTimeout: '20000'
+
+
 - task: SSH@0
-  displayName: 'Deploy Todo App - Debug'
+  displayName: 'Debug Deployment'
   inputs:
     sshEndpoint: 'vivek-service-conn-ssh-pair'
     runOptions: 'commands'
     commands: |
-      echo "===== USER ====="
-      whoami
+      cd /var/www/html
 
       echo "===== BEFORE ====="
-      ls -lah /var/www/html
+      ls -lah
 
-      echo "===== ZIP INFO ====="
-      ls -lh /var/www/html/vivek-todo.zip
-
-      echo "===== ZIP CONTENT ====="
-      unzip -l /var/www/html/vivek-todo.zip
-
-      echo "===== EXTRACTING ====="
-      cd /var/www/html
+      echo "===== EXTRACT ====="
       unzip -o /var/www/html/vivek-todo.zip
 
-      echo "===== AFTER ====="
-      ls -lah /var/www/html
-
-      echo "===== FIND FILES ====="
+      echo "===== IMMEDIATELY AFTER UNZIP ====="
+      ls -lah
       find /var/www/html -maxdepth 3 -type f -print
-    readyTimeout: '20000'
+
+      echo "===== CHECK INDEX ====="
+      ls -lah /var/www/html/index.html || true
+
+      echo "===== CHECK STATIC ====="
+      ls -lah /var/www/html/static || true
+    readyTimeout: '20000'    
