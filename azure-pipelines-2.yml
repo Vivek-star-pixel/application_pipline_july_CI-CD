@@ -41,3 +41,11 @@ steps:
     archiveType: 'zip'
     archiveFile: '$(Build.ArtifactStagingDirectory)/vivek-todo.zip'
     replaceExistingArchive: true
+
+- task: CopyFilesOverSSH@0
+  inputs:
+    sshEndpoint: 'vivek-service-conn-ssh-pair'
+    sourceFolder: '$(Build.ArtifactStagingDirectory)/vivek-todo.zip'
+    contents: '**'
+    targetFolder: 'cd /var/www/html/'
+    readyTimeout: '20000'
