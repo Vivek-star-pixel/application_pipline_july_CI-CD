@@ -58,23 +58,27 @@ steps:
     sshEndpoint: 'vivek-service-conn-ssh-pair'
     runOptions: 'commands'
     commands: |
-      echo "===== CHECK ====="
-      whoami
-      pwd
+      echo "===== WAIT FOR FILE ====="
+      for i in $(seq 1 10); do
+        if [ -f /var/www/html/vivek-todo.zip ]; then
+          echo "File found!"
+          break
+        fi
+        echo "Waiting for file... attempt $i"
+        sleep 3
+      done
 
       cd /var/www/html
-
       echo "===== FILES BEFORE UNZIP ====="
       ls -lah
 
       echo "===== UNZIP ====="
-      /usr/bin/unzip -o ./vivek-todo.zip
+      unzip -o ./vivek-todo.zip
 
       echo "===== FILES AFTER UNZIP ====="
       ls -lah
 
       rm -f ./vivek-todo.zip
-
       sudo systemctl restart nginx
     readyTimeout: '20000'
 
