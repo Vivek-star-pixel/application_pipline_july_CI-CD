@@ -1,4 +1,4 @@
-# Node.js
+  # Node.js
 # Build a general Node.js project with npm.
 # Add steps that analyze code, save build artifacts, deploy, and more:
 # https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
@@ -50,5 +50,19 @@ steps:
     contents: 'vivek-todo.zip'
     targetFolder: '/var/www/html/'
     readyTimeout: '20000'
+
+
+- task: SSH@0
+  displayName: 'Deploy Todo App'
+  inputs:
+    sshEndpoint: 'vivek-service-conn-ssh-pair'
+    runOptions: 'commands'
+    commands: |
+      cd /var/www/html
+      unzip -o vivek-todo.zip
+      rm -f vivek-todo.zip
+      sudo systemctl restart nginx
+      ls -lah
+    readyTimeout: '20000'    
 
 
