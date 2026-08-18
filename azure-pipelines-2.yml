@@ -115,13 +115,11 @@ steps:
     commands: |
       echo "===== DEPLOY START ====="
 
-      cd /var/www/html
-
       echo "===== ZIP BEFORE ====="
       ls -lah /var/www/html/vivek-todo.zip
 
       echo "===== EXTRACT ====="
-      /usr/bin/unzip -o /var/www/html/vivek-todo.zip
+      /usr/bin/unzip -o /var/www/html/vivek-todo.zip -d /var/www/html/
 
       echo "===== VERIFY ====="
       ls -lah /var/www/html
