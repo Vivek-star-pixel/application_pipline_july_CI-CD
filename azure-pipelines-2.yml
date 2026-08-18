@@ -78,6 +78,35 @@ steps:
 #       ls -lah /var/www/html
 #     readyTimeout: '20000'
 
+# - task: SSH@0
+#   displayName: 'Deploy Todo App - Debug'
+#   inputs:
+#     sshEndpoint: 'vivek-service-conn-ssh-pair'
+#     runOptions: 'commands'
+#     commands: |
+#       echo "===== USER ====="
+#       whoami
+
+#       echo "===== BEFORE ====="
+#       ls -lah /var/www/html
+
+#       echo "===== ZIP INFO ====="
+#       ls -lh /var/www/html/vivek-todo.zip
+
+#       echo "===== ZIP CONTENT ====="
+#       unzip -l /var/www/html/vivek-todo.zip
+
+#       echo "===== EXTRACTING ====="
+#       cd /var/www/html
+#       unzip -o /var/www/html/vivek-todo.zip
+
+#       echo "===== AFTER ====="
+#       ls -lah /var/www/html
+
+#       echo "===== FIND FILES ====="
+#       find /var/www/html -maxdepth 3 -type f -print
+#     readyTimeout: '20000'
+
 - task: SSH@0
   displayName: 'Deploy Todo App - Debug'
   inputs:
@@ -90,21 +119,26 @@ steps:
       echo "===== BEFORE ====="
       ls -lah /var/www/html
 
-      echo "===== ZIP INFO ====="
-      ls -lh /var/www/html/vivek-todo.zip
-
       echo "===== ZIP CONTENT ====="
       unzip -l /var/www/html/vivek-todo.zip
 
       echo "===== EXTRACTING ====="
       cd /var/www/html
       unzip -o /var/www/html/vivek-todo.zip
+      echo "UNZIP EXIT CODE = $?"
 
-      echo "===== AFTER ====="
+      echo "===== IMMEDIATELY AFTER UNZIP ====="
       ls -lah /var/www/html
 
-      echo "===== FIND FILES ====="
+      echo "===== INDEX CHECK ====="
+      test -f /var/www/html/index.html && echo "index.html EXISTS" || echo "index.html NOT FOUND"
+
+      echo "===== STATIC CHECK ====="
+      test -d /var/www/html/static && echo "static EXISTS" || echo "static NOT FOUND"
+
+      echo "===== ALL EXTRACTED FILES ====="
       find /var/www/html -maxdepth 3 -type f -print
+
+      echo "===== DISK ====="
+      df -h /var/www/html
     readyTimeout: '20000'
-
-
