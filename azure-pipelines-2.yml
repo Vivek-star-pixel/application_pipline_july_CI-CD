@@ -131,16 +131,5 @@ steps:
       echo "===== REMOVE ZIP ====="
       rm -f /var/www/html/vivek-todo.zip
 
-- task: SSH@0
-  displayName: 'Deploy Todo App1'
-  inputs:
-    sshEndpoint: 'vivek-service-conn-ssh-pair'
-    runOptions: 'commands'
-    commands: |
-      cd /var/www/html
-      unzip -o vivek-todo.zip
-      ls -lah
-      test -f index.html
-      test -d static
-      rm -f vivek-todo.zip
+
 
